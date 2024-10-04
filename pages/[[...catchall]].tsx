@@ -18,24 +18,29 @@ export default function PlasmicLoaderPage(props: {
 }) {
   const { plasmicData, queryCache } = props;
   const router = useRouter();
+
+  const isProduction = process.env.NODE_ENV === 'production';
+  const redirectUri = isProduction
+    ? 'https://nextauth-test-plum.vercel.app/profile'
+    : 'http://localhost:3000/profile';
+
   if (!plasmicData || plasmicData.entryCompMetas.length === 0) {
     return <Error statusCode={404} />;
   }
   const pageMeta = plasmicData.entryCompMetas[0];
   return (
-    <>
-      <PlasmicRootProvider
-        loader={PLASMIC}
-        prefetchedData={plasmicData}
-        prefetchedQueryData={queryCache}
-        pageRoute={pageMeta.path}
-        pageParams={pageMeta.params}
-        pageQuery={router.query}
-      >
-        <PlasmicComponent component={pageMeta.displayName} />
-      </PlasmicRootProvider>
-    </>
-  )
+    <PlasmicRootProvider
+      loader={PLASMIC}
+      prefetchedData={plasmicData}
+      prefetchedQueryData={queryCache}
+      pageRoute={pageMeta.path}
+      pageParams={pageMeta.params}
+      pageQuery={router.query}
+      authRedirectUri={redirectUri}
+    >
+      <PlasmicComponent component={pageMeta.displayName} />
+    </PlasmicRootProvider>
+  );
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
