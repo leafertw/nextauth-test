@@ -11,6 +11,7 @@ import Error from "next/error";
 import { useRouter } from "next/router";
 import { PLASMIC } from "@/plasmic-init";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function PlasmicLoaderPage(props: {
   plasmicData?: ComponentRenderData;
   queryCache?: Record<string, any>;
@@ -22,17 +23,19 @@ export default function PlasmicLoaderPage(props: {
   }
   const pageMeta = plasmicData.entryCompMetas[0];
   return (
-    <PlasmicRootProvider
-      loader={PLASMIC}
-      prefetchedData={plasmicData}
-      prefetchedQueryData={queryCache}
-      pageRoute={pageMeta.path}
-      pageParams={pageMeta.params}
-      pageQuery={router.query}
-    >
-      <PlasmicComponent component={pageMeta.displayName} />
-    </PlasmicRootProvider>
-  );
+    <>
+      <PlasmicRootProvider
+        loader={PLASMIC}
+        prefetchedData={plasmicData}
+        prefetchedQueryData={queryCache}
+        pageRoute={pageMeta.path}
+        pageParams={pageMeta.params}
+        pageQuery={router.query}
+      >
+        <PlasmicComponent component={pageMeta.displayName} />
+      </PlasmicRootProvider>
+    </>
+  )
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
