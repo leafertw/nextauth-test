@@ -1,17 +1,9 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 
-import { ensurePlasmicAppUser } from '@plasmicapp/auth-api';
-
+import { ensurePlasmicAppUser } from "@plasmicapp/auth-api";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    debug: true,
-    theme: {
-        colorScheme: "dark",
-        brandColor: "#1E1E1E",
-        logo: "/favicon.ico",
-    },
-    providers: [GitHub],
     callbacks: {
         async session({ session }) {
             // Ensure the Plasmic user
@@ -30,15 +22,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
 
             // If successful, extract the Plasmic user and token
-            //const { user: plasmicUser, token: plasmicUserToken } = result;
+            const { user: PlasmicUser, token: plasmicUserToken } = result;
 
             // You can store the token in the session
-            //session.plasmicUser = plasmicUser; // Add Plasmic user info to the session
-            //session.plasmicUserToken = plasmicUserToken; // Store the Plasmic token
+            session.user.email = PlasmicUser.email; // Add Plasmic user info to the session
+            session.sessionToken = plasmicUserToken; // Store the Plasmic token
 
             return session; // Return the modified session
         },
-    }
+    },
+    debug: true,
+    theme: {
+        colorScheme: "dark",
+        brandColor: "#1E1E1E",
+        logo: "/favicon.ico",
+    },
+    providers: [GitHub],
 })
 
 /*

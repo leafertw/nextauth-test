@@ -24,7 +24,7 @@ export const PLASMIC = initPlasmicLoader({
 
 // PLASMIC.registerComponent(...);
 
-import { AuthTrigger } from './components/AuthTrigger';
+import { AuthTrigger } from './components/auth/AuthTrigger';
 import { SignIn, SignOut } from './components/auth/signin-buttons';
 
 PLASMIC.registerComponent(AuthTrigger, {
