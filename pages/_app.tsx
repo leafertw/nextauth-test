@@ -9,22 +9,29 @@ import {
 } from '@plasmicapp/loader-nextjs';
 
 // -------------------- FOR NEXT-AUTH --------------------
+// https://next-auth.js.org/getting-started/client#options
 import { SessionProvider } from "next-auth/react";
 
 export default function AcrossAllPages({
     Component,
     pageProps: { session, ...pageProps },
-  }: AppProps) {
+}: AppProps) {
 
     return (
         <>
-            <SessionProvider session={session}>
 
-                <DataProvider>
+            <DataProvider>
+
+                <SessionProvider
+                    session={session}>
+
+
                     <Component {...pageProps} />
-                </DataProvider>
 
-            </SessionProvider>
+                </SessionProvider>
+
+            </DataProvider>
+
         </>
     );
 };

@@ -6,6 +6,21 @@ import { ensurePlasmicAppUser } from "@plasmicapp/auth-api";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
+        async jwt({
+            token,
+            user,
+            account,
+            //profile
+        }) {
+            // Persist the OAuth access_token and or the user id to the token right after signin
+            if (user) {
+                token.id = user.id;
+            }
+            if (account) {
+                token.accessToken = account.access_token;
+            }
+            return token;
+        },
         async session({ session }) {
             // Ensure the Plasmic user
             const PLASMIC_APP_SECRET = process.env.PLASMIC_APP_SECRET;
