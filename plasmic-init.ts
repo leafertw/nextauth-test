@@ -1,10 +1,13 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-nextjs";
 
+const id: string = process.env.PLASMIC_PROJ_ID || '';
+const token: string = process.env.PLASMIC_PROJ_TOKEN || '';
+
 export const PLASMIC = initPlasmicLoader({
   projects: [
     {
-      id: "vVdMKkQSApmhegcq4SFWhc",
-      token: "iGycHTruEnFiN1hyIn9UtyIXV4fVcTRi2aN46zRXqA82b0vOUqbgmkFQglEDFWM8Nr8FvGPyhPhhqqBGdQ",
+      id: id,
+      token: token,
     },
   ],
 
@@ -12,7 +15,7 @@ export const PLASMIC = initPlasmicLoader({
   // For development, you can set preview to true, which will use the unpublished
   // project, allowing you to see your designs without publishing.  Please
   // only use this for development, as this is significantly slower.
-  preview: true,
+  preview: false,
 });
 
 // You can register any code components that you want to use here; see
@@ -25,7 +28,6 @@ export const PLASMIC = initPlasmicLoader({
 // PLASMIC.registerComponent(...);
 
 import { AuthTrigger } from './components/auth/AuthTrigger';
-import { SignIn, SignOut } from './components/auth/signin-buttons';
 
 PLASMIC.registerComponent(AuthTrigger, {
   name: "AuthTrigger",
@@ -35,14 +37,4 @@ PLASMIC.registerComponent(AuthTrigger, {
       options: ['signIn', 'signOut'],
     }
   },
-});
-
-PLASMIC.registerComponent(SignIn, {
-  name: "SignIn",
-  props: {},
-});
-
-PLASMIC.registerComponent(SignOut, {
-  name: "SignOut",
-  props: {},
 });
