@@ -1,3 +1,6 @@
+//  auth.ts
+//  example: https://github.com/nextauthjs/next-auth/blob/main/apps/examples/nextjs-pages/auth.ts
+
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
@@ -5,6 +8,8 @@ import Google from "next-auth/providers/google"
 import { ensurePlasmicAppUser } from "@plasmicapp/auth-api";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    // callback ref https://stackoverflow.com/a/72492588
+    // about callbacks https://next-auth.js.org/configuration/callbacks#jwt-callback
     callbacks: {
         async jwt({
             token,
