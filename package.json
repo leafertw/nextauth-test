@@ -9,20 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@plasmicapp/auth-api": "^0.0.17",
-    "@plasmicapp/loader-nextjs": "^1.0.406",
+    "@plasmicapp/loader-nextjs": "^1.0.413",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "@types/react-router": "^5.1.20",
-    "next": "14.2.14",
-    "next-auth": "^5.0.0-beta.22",
-    "react": "^18",
-    "react-dom": "^18"
+    "next": "15.1.7",
+    "@plasmicapp/auth-api": "^0.0.17",
+    "next-auth": "^5.0.0-beta.22"
   },
   "devDependencies": {
     "@types/node": "^22",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.14",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.7",
     "typescript": "^5"
+  },
+  "overrides": {
+    "cross-spawn": ">=6.0.6"
   }
 }
