@@ -13,7 +13,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "@types/react-router": "^5.1.20",
-    "next": "15.1.7",
+    "next": "15.2.3",
     "@plasmicapp/auth-api": "^0.0.17",
     "next-auth": "^5.0.0-beta.22"
   },
