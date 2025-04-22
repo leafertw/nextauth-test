@@ -1,15 +1,47 @@
 //  auth.ts
 //  example: https://github.com/nextauthjs/next-auth/blob/main/apps/examples/nextjs-pages/auth.ts
+//  example: https://github.com/plasmicapp/plasmic-next-auth-example/blob/master/auth.ts
 
-import NextAuth from "next-auth"
-import GitHub from "next-auth/providers/github"
-import Google from "next-auth/providers/google"
+import NextAuth, { NextAuthConfig } from "next-auth";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 
 import { ensurePlasmicAppUser } from "@plasmicapp/auth-api";
+
+/*
+ * In order to log in through your browser and expose the logged in state
+ * to the Plasmic studio you would need to additionally configure cookies.
+ * This is only needed in development mode, in production mode these
+ * policies need to be disabled for security reasons.
+ **/
+const devCookiesConfig: NextAuthConfig["cookies"] = {
+    sessionToken: {
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      },
+    },
+    csrfToken: {
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      },
+    },
+  };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     // callback ref https://stackoverflow.com/a/72492588
     // about callbacks https://next-auth.js.org/configuration/callbacks#jwt-callback
+    cookies: process.env.NODE_ENV !== "production" ? devCookiesConfig : undefined,
     callbacks: {
         async jwt({
             token,

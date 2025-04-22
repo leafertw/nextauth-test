@@ -11,6 +11,11 @@ import Error from "next/error";
 import { useRouter } from "next/router";
 import { PLASMIC } from "@/plasmic-init";
 
+// -------------------- FOR NEXT-AUTH --------------------
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
+const session = await auth();
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default function PlasmicLoaderPage(props: {
   plasmicData?: ComponentRenderData;
@@ -19,6 +24,7 @@ export default function PlasmicLoaderPage(props: {
   const { plasmicData, queryCache } = props;
   const router = useRouter();
 
+  // set redirect link between dev and prod
   const isProduction = process.env.NODE_ENV === 'production';
   const redirectUri = isProduction
     ? 'https://nextauth-test-plum.vercel.app/profile'
@@ -29,17 +35,19 @@ export default function PlasmicLoaderPage(props: {
   }
   const pageMeta = plasmicData.entryCompMetas[0];
   return (
-    <PlasmicRootProvider
-      loader={PLASMIC}
-      prefetchedData={plasmicData}
-      prefetchedQueryData={queryCache}
-      pageRoute={pageMeta.path}
-      pageParams={pageMeta.params}
-      pageQuery={router.query}
-      authRedirectUri={redirectUri}
-    >
-      <PlasmicComponent component={pageMeta.displayName} />
-    </PlasmicRootProvider>
+    <SessionProvider session={session}>
+      <PlasmicRootProvider
+        loader={PLASMIC}
+        prefetchedData={plasmicData}
+        prefetchedQueryData={queryCache}
+        pageRoute={pageMeta.path}
+        pageParams={pageMeta.params}
+        pageQuery={router.query}
+        authRedirectUri={redirectUri}
+      >
+        <PlasmicComponent component={pageMeta.displayName} />
+      </PlasmicRootProvider>
+    </SessionProvider>
   );
 }
 
@@ -54,14 +62,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const pageMeta = plasmicData.entryCompMetas[0];
   // Cache the necessary data fetched for the page
   const queryCache = await extractPlasmicQueryData(
-    <PlasmicRootProvider
-      loader={PLASMIC}
-      prefetchedData={plasmicData}
-      pageRoute={pageMeta.path}
-      pageParams={pageMeta.params}
-    >
-      <PlasmicComponent component={pageMeta.displayName} />
-    </PlasmicRootProvider>
+    <SessionProvider session={session}>
+      <PlasmicRootProvider
+        loader={PLASMIC}
+        prefetchedData={plasmicData}
+        pageRoute={pageMeta.path}
+        pageParams={pageMeta.params}
+      >
+        <PlasmicComponent component={pageMeta.displayName} />
+      </PlasmicRootProvider>
+    </SessionProvider>
   );
   // Use revalidate if you want incremental static regeneration
   return { props: { plasmicData, queryCache }, revalidate: 60 };

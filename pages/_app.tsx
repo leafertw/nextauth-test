@@ -19,19 +19,14 @@ export default function AcrossAllPages({
 
     return (
         <>
-
             <DataProvider>
-
                 <SessionProvider
                     session={session}>
-
-
+                        
                     <Component {...pageProps} />
 
                 </SessionProvider>
-
             </DataProvider>
-
         </>
     );
 };

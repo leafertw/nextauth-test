@@ -1,3 +1,5 @@
+//  example: https://github.com/nextauthjs/next-auth/blob/main/apps/examples/nextjs-pages/components/auth-components.tsx
+
 import { signIn, signOut } from "next-auth/react";
 import React, { useState } from "react";
 

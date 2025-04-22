@@ -4,6 +4,9 @@
 
 //  https://authjs.dev/getting-started/migrating-to-v5#authentication-methods
 //  use the auth method as a wrapper to implement more logic inside the middleware
+
+//  Example: https://github.com/plasmicapp/plasmic-next-auth-example/blob/master/middleware.ts
+
 import { auth } from "@/auth"
 
 export default auth((req) => {
@@ -13,7 +16,13 @@ export default auth((req) => {
   }
 })
 
-// only run on these paths
+// Only run on these paths
+// Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+// Also exclude plasmic-host path from the middleware
 export const config = {
-    matcher: ['/certify/(.*)', '/admin/(.*)'],
-}
+  matcher: [
+    "/:path((?!_next/|api/|favicon\\.ico|plasmic-host).*)",
+    "/certify/(.*)",
+    "/admin/(.*)"
+  ]
+};
