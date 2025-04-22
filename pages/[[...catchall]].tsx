@@ -12,11 +12,9 @@ import { useRouter } from "next/router";
 import { PLASMIC } from "@/plasmic-init";
 
 // -------------------- FOR NEXT-AUTH --------------------
-import { auth } from "@/auth";
+// import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-const session = await auth();
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function PlasmicLoaderPage(props: {
   plasmicData?: ComponentRenderData;
   queryCache?: Record<string, any>;
@@ -35,7 +33,7 @@ export default function PlasmicLoaderPage(props: {
   }
   const pageMeta = plasmicData.entryCompMetas[0];
   return (
-    <SessionProvider session={session}>
+    <SessionProvider>
       <PlasmicRootProvider
         loader={PLASMIC}
         prefetchedData={plasmicData}
@@ -62,7 +60,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const pageMeta = plasmicData.entryCompMetas[0];
   // Cache the necessary data fetched for the page
   const queryCache = await extractPlasmicQueryData(
-    <SessionProvider session={session}>
+    <SessionProvider>
       <PlasmicRootProvider
         loader={PLASMIC}
         prefetchedData={plasmicData}
