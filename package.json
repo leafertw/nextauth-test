@@ -14,8 +14,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "@types/react-router": "^5.1.20",
-    "next": "15.5.18",
-    "next-auth": "^5.0.0-beta.30"
+    "next": "15.5.22",
+    "next-auth": "^5.0.0-beta.32"
   },
   "devDependencies": {
     "@types/node": "^22",
